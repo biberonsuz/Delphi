@@ -1,28 +1,21 @@
-import { useState } from 'react';
-import './App.css'
-import Sidebar from './components/Sidebar';
-import Chat from './components/Chat';
-import BookSelection from './components/BookSelection';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import LandingView from './views/LandingView'
+import SignUpView from './views/SignUpView'
+import LoginView from './views/LoginView'
+import MainView from './views/MainView'
+import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
-  const [selectedBook, setSelectedBook] = useState(null);
-  const handleSelectBook = (book) => {
-    setSelectedBook(book); // Store the selected book and proceed to chat
-  };
   return (
-    <div className="App">
-      <div className="flex h-dvh">
-        <Sidebar selectedBook={selectedBook} />
-        {!selectedBook ? (
-          // Show the book selection screen if no book is selected
-          <BookSelection onSelectBook={handleSelectBook} />
-        ) : (
-          // Show the chat window after the user selects a book
-          <Chat selectedBook={selectedBook} />
-        )}
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingView />} />
+        <Route path="/signup" element={<SignUpView />} />
+        <Route path="/login" element={<LoginView />} />
+        <Route path="/app" element={<ProtectedRoute><MainView /></ProtectedRoute>} />
+      </Routes>
+    </Router>
   )
 }
 
-export default App;
+export default App

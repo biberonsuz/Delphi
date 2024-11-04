@@ -12,7 +12,7 @@ const MessageInput = ({ onSend }) => {
   };
 
   return (
-    <form onSubmit={handleSend} className="flex items-center p-4 bg-gray-10">
+    <form onSubmit={handleSend} className="flex items-center py-4 bg-gray-10 w-full max-w-4xl mx-auto">
       <input
         type="text"
         className="flex-1 px-4 py-2 bg-gray-100 rounded-3xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -22,7 +22,7 @@ const MessageInput = ({ onSend }) => {
       />
       <button
         type="submit"
-        className="ml-4 px-4 py-2 bg-indigo-500 text-white rounded-3xl hover:bg-indigo-600"
+        className="ml-4 btn-primary"
       >
         Send
       </button>

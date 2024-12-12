@@ -1,17 +1,26 @@
 const fs = require('fs')
+const path = require('path')
 
-const loadBookChunks = (filePath, chunkSize = 300) => {
-  const text = fs.readFileSync(filePath, 'utf-8')
-  const chunks = []
+async function* loadBookChunks(author, title) {
+  const formattedAuthor = author.replace(/\s+/g, '-')
+  const formattedTitle = title.replace(/\s+/g, '-')
+  const filePath = path.join(__dirname, '../../books', `${formattedAuthor}-${formattedTitle}`, `${formattedAuthor}-${formattedTitle}.txt`)
+  const fileStream = fs.createReadStream(filePath, { encoding: 'utf-8' })
+  let buffer = ''
+  
+  for await (const chunk of fileStream) {
+    buffer += chunk
+    const paragraphs = buffer.split('\n')
+    buffer = paragraphs.pop()
 
-  let start = 0
-  while (start < text.length) {
-    const end = start + chunkSize
-    chunks.push(text.slice(start, end).trim())
-    start = end
+    for (const paragraph of paragraphs) {
+      yield paragraph.trim()
+    }
   }
 
-  return chunks
+  if (buffer) {
+    yield buffer.trim()
+  }
 }
 
 module.exports = { loadBookChunks }

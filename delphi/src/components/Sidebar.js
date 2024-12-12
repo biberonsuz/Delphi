@@ -7,12 +7,13 @@ import ProfileIcon from './icons/ProfileIcon'
 import LogOutIcon from './icons/LogOutIcon'
 import NewIcon from './icons/NewIcon'
 import BookIcon from './icons/BookIcon'
+import LibraryIcon from './icons/LibraryIcon'
 
-const Sidebar = ({ selectedBook, setActiveView, onSelectChat }) => {
+const Sidebar = ({ setActiveView }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [chats, setChats] = useState([])
-  const [selectedItem, setSelectedItem] = useState("Library") // default selected item
+  const [selectedItem, setSelectedItem] = useState("Library")
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -79,11 +80,14 @@ const Sidebar = ({ selectedBook, setActiveView, onSelectChat }) => {
       <nav className="flex flex-col p-2 grow">
         <ul className="space-y-4 border-b border-gray-300 pb-4">
           <SidebarListItem
-            icon={SettingsIcon}
+            icon={LibraryIcon}
             label={!isCollapsed && "Library"}
             href="#"
             isSelected={selectedItem === "Library"}
-            onClick={() => { setSelectedItem("Library") }}
+            onClick={() => { 
+              setSelectedItem("Library")
+              setActiveView('library')
+             }}
           />
           <SidebarListItem
             icon={ProfileIcon}
@@ -100,47 +104,21 @@ const Sidebar = ({ selectedBook, setActiveView, onSelectChat }) => {
             label={!isCollapsed && "Settings"}
             href="#"
             isSelected={selectedItem === "Settings"}
-            onClick={() => { setSelectedItem("Settings") }}
+            onClick={() => { 
+              setSelectedItem("Settings")
+              setActiveView('settings')
+            }}
           />
         </ul>
         <ul className="space-y-2 grow pt-4">
-          {selectedBook ? (
-            <SidebarListItem
-              icon={BookIcon}
-              label={!isCollapsed && `${selectedBook.title} — ${selectedBook.author}`}
-              href="#"
-              isSelected={selectedItem === selectedBook.title}
-              onClick={() => setSelectedItem(selectedBook.title)}
-            />
-          ) : (
-            <SidebarListItem
-              icon={BookIcon}
-              label={!isCollapsed && "New Book"}
-              href="#"
-              isSelected={selectedItem === "New Book"}
-              onClick={() => setSelectedItem("New Book")}
-            />
-          )}
-          {chats.map((chatId, index) => (
-            <SidebarListItem
-              key={index}
-              icon={BookIcon}
-              label={!isCollapsed && `Chat ${index + 1}`}
-              href="#"
-              isSelected={selectedItem === `Chat ${index + 1}`}
-              onClick={() => {
-                setSelectedItem(`Chat ${index + 1}`)
-                onSelectChat(chatId)
-              }}
-            />
-          ))}
+
         </ul>
         {isLoggedIn && (
           <ul className="pt-4">
             <SidebarListItem
               icon={LogOutIcon}
               label={!isCollapsed && "Log Out"}
-              isSelected={false} // Log Out doesn't need selection highlight
+              isSelected={false}
               onClick={handleLogout}
               href="#"
             />

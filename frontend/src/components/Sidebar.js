@@ -8,6 +8,7 @@ import LogOutIcon from './icons/LogOutIcon'
 import NewIcon from './icons/NewIcon'
 import BookIcon from './icons/BookIcon'
 import LibraryIcon from './icons/LibraryIcon'
+import HomeIcon from './icons/HomeIcon'
 
 const Sidebar = ({ setActiveView }) => {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -79,6 +80,16 @@ const Sidebar = ({ setActiveView }) => {
       </div>
       <nav className="flex flex-col p-2 grow">
         <ul className="space-y-4 border-b border-gray-300 pb-4">
+        <SidebarListItem
+            icon={HomeIcon}
+            label={!isCollapsed && "Home"}
+            href="#"
+            isSelected={selectedItem === "Home"}
+            onClick={() => { 
+              setSelectedItem("Home")
+              setActiveView('home')
+             }}
+          />
           <SidebarListItem
             icon={LibraryIcon}
             label={!isCollapsed && "Library"}
@@ -99,16 +110,7 @@ const Sidebar = ({ setActiveView }) => {
               setActiveView('profile')
             }}
           />
-          <SidebarListItem
-            icon={SettingsIcon}
-            label={!isCollapsed && "Settings"}
-            href="#"
-            isSelected={selectedItem === "Settings"}
-            onClick={() => { 
-              setSelectedItem("Settings")
-              setActiveView('settings')
-            }}
-          />
+          
         </ul>
         <ul className="space-y-2 grow pt-4">
 
